@@ -14,13 +14,13 @@ public class SavingAccount extends BankAccount {
 
     @Override
     public void withdraw(double amount) {
-        if(super.getBalance() - amount <= oddNumber) {
+        if (super.getBalance() - amount >= oddNumber) {
             super.setBalance(super.getBalance() - amount);
-            System.out.println("Withdraw of $"+amount+" successfull Current balance : $"+super.getBalance());
-        }
-        else{
-            System.out.println("Insufficient funds.Withdrawal failed");
+            System.out.println("Withdraw of $" + amount + " successful. Current balance: $" + super.getBalance());
+        } else {
+            System.out.println("Insufficient funds. Withdrawal failed");
         }
     }
+
 
 }
