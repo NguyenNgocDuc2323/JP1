@@ -1,43 +1,38 @@
 package Banking;
-import E3.Gender;
+
+import Banking.Controller.AccountController;
+import Banking.Service.ValidateData;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
-        List<Author> authors = new ArrayList<>();
-        List<Book> books = new ArrayList<>();
+        List<Customer> customers = new ArrayList<>();
+        customers.add(new Customer(1, "Duc", Gender.M, "Thanh Hoa", "0886189630", "nguyenngocduc332@gmail.com"));
+        customers.add(new Customer(2, "Nam", Gender.M, "Ha Noi", "123456789", "lebanam@gmail.com"));
+        customers.add(new Customer(3, "Ngoc", Gender.M, "HCM", "0234432423", "nguyenhongngoc@gmail.com"));
 
-        authors.add(new Author("Bean", "bean@hotmail.com", Gender.M));
-        authors.add(new Author("Mark", "mark@hotmail.com", Gender.M));
-        authors.add(new Author("Harry", "harry@hotmail.com", Gender.F));
+        Account account = new Account("1234", customers.get(0), 2000);
+        AccountController accController = new AccountController(account);
+        ValidateData validate = new ValidateData(account);
 
-        books.add(new Book("Java", authors.get(0), 205, 1000));
-        books.add(new Book("C#", authors.get(1), 180, 500));
-        books.add(new Book("Python", authors.get(2), 200, 1500));
+        Scanner sc = new Scanner(System.in);
+        double amount = 0;
+        boolean valid = false;
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Please Input Book Name: ");
-        String bookName = scanner.nextLine();
-        List<Book> filBooks = books.stream()
-                .filter(book -> containsIgnoreCase(book.getName(), bookName))
-                .sorted(Comparator.comparing(Book::getName))
-                .toList();
-
-        if (filBooks.size() > 0) {
-            filBooks.forEach(System.out::println);
-        } else {
-            System.out.println("Book not found");
-        }
-    }
-    public static boolean containsIgnoreCase(String parrentString, String childString) {
-        int length = childString.length();
-        int max = parrentString.length() - length;
-        for (int i = 0; i <= max; i++) {
-            if (parrentString.regionMatches(true, i, childString, 0, length)) {
-                return true;
+        while (!valid) {
+            System.out.print("\nNhập Số Tiền : ");
+            String input = sc.nextLine();
+            amount = validate.validateAmount(account, input);
+            if (amount > 0) {
+                valid = true;
             }
         }
-        return false;
+        accController.deposit(amount);
+        System.out.println(account);
+        accController.withdraw(amount);
+        System.out.println(account);
     }
 }
