@@ -35,7 +35,6 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Đã xảy ra lỗi khi đọc input!");
         }
-
         Optional<Staff> anyManager = staffs.stream()
                 .filter(staff -> staff instanceof Manager)           //.skip(2)
                 .findFirst();
